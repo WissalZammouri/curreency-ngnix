@@ -10,7 +10,7 @@
 </head>
 <body>
 @foreach($pays as $obj)
- <a href={{url('pays/'.$obj->name)}}> {{$obj->name}}</a><br>
+ <a href={{url('pays/'. $obj->name)}}> {{$obj->name}}</a><br>
 @endforeach
     
 </body>
