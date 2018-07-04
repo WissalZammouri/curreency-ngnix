@@ -1,15 +1,21 @@
-version: '2'
+version: '3'
+
 services:
-    currencyapi:
-        build:
-          context: .
-          dockerfile: Dockerfile
-        working_dir: /var/www/
-        command: php -S 0.0.0.0:7000 -t public index.php
-        environment:
-            docker: "true"
-        ports:
-            - 8001:7000
-        volumes:
-            - .:/var/www
-            - /sbin/ip:/sbin/ip
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile-Nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/code/
+    links:
+      - php
+
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile-PHP
+    volumes:
+      - .:/code/

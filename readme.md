@@ -1,27 +1,75 @@
-# Laravel PHP Framework
+# Docker Nginx PHP Example
 
-[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
-[![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
+[![Software License][ico-license]](LICENSE.md)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, queueing, and caching.
+This is a simple example for running a docker container with php and nginx.
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
+## Get it up and running
 
-## Official Documentation
+- [Install docker on your machine.][install-docker]
 
-Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
+- [Install docker-compose on your machine.][install-docker-compose]
 
-## Contributing
+- Clone this repository.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
+``` bash
+$ git clone https://github.com/mhilker/docker-nginx-php-example
+```
 
-## Security Vulnerabilities
+- Switch to the cloned directory.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+``` bash
+$ cd docker-nginx-php-example
+```
+
+- Start the stack.
+
+``` bash
+$ docker-compose up
+```
+
+- You should see an output like this.
+
+``` bash
+$docker-compose up --build
+Building php
+Step 1/4 : FROM php:7.1-fpm-alpine
+ ---> 8a87fcbea0c9
+Step 2/4 : COPY ./conf/php-fpm.conf /etc/php/7.1/fpm/pool.d/www.conf
+ ---> Using cache
+ ---> 3b0231129196
+Step 3/4 : COPY . /code
+ ---> 4e862a5bae65
+Removing intermediate container eb4c8aa38fd6
+Step 4/4 : VOLUME /code
+ ---> Running in 965b923d1612
+ ---> a48844bbb0f9
+Removing intermediate container 965b923d1612
+Successfully built a48844bbb0f9
+Successfully tagged dockernginxphpexample_php:latest
+Building web
+Step 1/2 : FROM nginx:1.11-alpine
+ ---> f35b49deb234
+Step 2/2 : COPY ./conf/nginx.conf /etc/nginx/conf.d/default.conf
+ ---> 906659bc675e
+Removing intermediate container d024ec3e3a48
+Successfully built 906659bc675e
+Successfully tagged dockernginxphpexample_web:latest
+Recreating dockernginxphpexample_php_1
+Recreating dockernginxphpexample_web_1
+Attaching to dockernginxphpexample_php_1, dockernginxphpexample_web_1
+php_1  | [20-May-2017 19:27:58] NOTICE: fpm is running, pid 1
+php_1  | [20-May-2017 19:27:58] NOTICE: ready to handle connections
+```
+
+- Visit `localhost:8080` in your browser. You should see an output like this.
+
+![Hello World Output with Docker and PHP + Nginx](./resources/screenshot-01.png)
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+
+[ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
+[install-docker]: https://docs.docker.com/engine/installation
+[install-docker-compose]: https://docs.docker.com/compose/install
